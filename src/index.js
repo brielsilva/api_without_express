@@ -1,20 +1,22 @@
+const { NOTFOUND } = require('dns');
 const http = require('http');
 
-const users = require('./mocks/users.js');
+const routes = require('./routes.js');
+function error404(req,res) {
+    res.writeHead(404, 'Content-Type','text/html');
+    return res.end('<h1>404 Not Found</h1>')
+}
 
 const server = http.createServer((req,res) => {
-    if(req.url == "/users" && req.method == "GET") {
-        res.writeHead(200,'Content-Type','application/json');
-        return res.end(JSON.stringify(users));
-    } else if (req.url == '/') {
-        res.writeHead(200,'Content-Type','text/html');
-        return res.end('<h1>Hello World</h1>')
+    const route = routes.find((route) => {
+        return route.endpoint === req.url && route.method === req.method;
+    })
+    if(route) {
+        return route.handler(req,res);
+    } else {
+        return error404(req,res)
     }
-    else {
-        res.writeHead(404,'Content-Type','application/json');
-        res.end('<h1>404</h1>')
-    }
-    
+
 });
 
 server.listen(4000, () => {
