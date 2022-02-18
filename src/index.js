@@ -1,19 +1,6 @@
 const http = require('http');
 
-const users = [
-    {
-        "id": 1,
-        "name": "Gabriel"
-    },
-    {
-        "id": 2,
-        "name": "Gabriel2"
-    },
-    {
-        "id": 3,
-        "name": "Gabriel3"
-    }
-]
+const users = require('./mocks/users.js');
 
 const server = http.createServer((req,res) => {
     if(req.url == "/users" && req.method == "GET") {
