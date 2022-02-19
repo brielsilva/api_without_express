@@ -1,5 +1,6 @@
 const http = require('http');
 const {URL} = require('url');
+const bodyParser = require('./helpers/bodyParser.js');
 
 const routes = require('./routes.js');
 function error404(req,res) {
@@ -25,7 +26,11 @@ const server = http.createServer((req,res) => {
     if(route) {
         req.query = Object.fromEntries(parsedUrl.searchParams);
         req.params = { id }
-        return route.handler(req,res);
+        if(['POST','PUT','PATCH'].includes(route.method)) {
+            return bodyParser(req, () => route.handler(req,res));
+        } else {
+            return route.handler(req,res);
+        }
     } else {
         return error404(req,res)
     }

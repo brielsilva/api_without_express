@@ -16,21 +16,31 @@ module.exports = {
         }
     },
     newUser(req,res) {
-        let body = '';
-        req.on('data', (chunk) => {
-            body += chunk;
-        })
-        req.on('end', () => {
-            body = JSON.parse(body);
-            const lastId = users[users.length-1].id;
-            const newUser = {
-                id: lastId+1,
+        const { body } = req;
+        const lastId = users[users.length-1].id;
+        const newUser = {
+            id: lastId+1,
+            name: body.name
+        }
+        users.push(newUser);
+        res.writeHead(200,'Content-Type','application/json');
+        return res.end(JSON.stringify(users));
+    },
+    updateUser(req,res) {
+        const {body} = req;
+        const user = users.find((user) => user.id === Number(req.params.id));
+        if(!user) {
+            res.writeHead(400,'Content-Type','application/json');
+            return res.end(JSON.stringify({error: 'User not found'}));
+        } else {
+            res.writeHead(200,'Content-Type','application/json');
+            const index = users.indexOf(user);
+            const updateUser = {
+                id: user.id,
                 name: body.name
             }
-            console.log(body);
-            res.writeHead(200,'Content-Type','application/json');
-            users.push(newUser);
+            users.splice(index,1,updateUser);
             return res.end(JSON.stringify(users));
-        })
+        }  
     }
 }
