@@ -7,7 +7,7 @@ module.exports = {
     },
     getUserById(req,res) {
         res.writeHead(200,'Content-Type','application/json');
-        const result = users.filter((user) => user.id == req.params.id);
+        const result = users.filter((user) => user.id === Number(req.params.id));
         return res.end(JSON.stringify(result[0]));
     }
 }
