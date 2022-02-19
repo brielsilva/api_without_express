@@ -6,8 +6,13 @@ module.exports = {
         return res.end(JSON.stringify(users));
     },
     getUserById(req,res) {
-        res.writeHead(200,'Content-Type','application/json');
-        const result = users.filter((user) => user.id === Number(req.params.id));
-        return res.end(JSON.stringify(result[0]));
+        const user = users.find((user) => user.id === Number(req.params.id));
+        if(!user) {
+            res.writeHead(400,'Content-Type','application/json');
+            return res.end(JSON.stringify({error: 'User not found'}));
+        } else {
+            res.writeHead(200,'Content-Type','application/json');
+            return res.end(JSON.stringify(user));
+        }
     }
 }
