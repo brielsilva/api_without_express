@@ -8,6 +8,11 @@ module.exports = [
         'handler': UserController.listUsers
     },
     {
+        'endpoint': '/users/:id',
+        'method': 'GET',
+        'handler': UserController.getUserById
+    },
+    {
         'endpoint': '/',
         'method': 'GET',
         'handler': HomeController.home
