@@ -19,6 +19,7 @@ const server = http.createServer((req,res) => {
         id = splitEndpoint[1];
     }
     const route = routes.find((route) => {
+        console.log(route.endpoint === pathname && route.method === req.method);
         return route.endpoint === pathname && route.method === req.method;
     })
     if(route) {
@@ -30,6 +31,7 @@ const server = http.createServer((req,res) => {
     }
 
 });
+
 
 server.listen(4000, () => {
     console.log('Escutando')

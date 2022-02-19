@@ -16,5 +16,10 @@ module.exports = [
         'endpoint': '/',
         'method': 'GET',
         'handler': HomeController.home
+    },
+    {
+        'endpoint': '/users',
+        'method': 'POST',
+        'handler': UserController.newUser
     }
 ]

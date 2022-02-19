@@ -14,5 +14,23 @@ module.exports = {
             res.writeHead(200,'Content-Type','application/json');
             return res.end(JSON.stringify(user));
         }
+    },
+    newUser(req,res) {
+        let body = '';
+        req.on('data', (chunk) => {
+            body += chunk;
+        })
+        req.on('end', () => {
+            body = JSON.parse(body);
+            const lastId = users[users.length-1].id;
+            const newUser = {
+                id: lastId+1,
+                name: body.name
+            }
+            console.log(body);
+            res.writeHead(200,'Content-Type','application/json');
+            users.push(newUser);
+            return res.end(JSON.stringify(users));
+        })
     }
 }
