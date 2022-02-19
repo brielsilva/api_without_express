@@ -42,5 +42,17 @@ module.exports = {
             users.splice(index,1,updateUser);
             return res.end(JSON.stringify(users));
         }  
+    },
+    deleteUserById(req,res) {
+        const user = users.find((user) => user.id === Number(req.params.id));
+        if(!user) {
+            res.writeHead(400,'Content-Type','application/json');
+            return res.end(JSON.stringify({error: 'User not found'}));
+        } else {
+            res.writeHead(200,'Content-Type','application/json');
+            const index = users.indexOf(user);
+            users.splice(index,1);
+            return res.end(JSON.stringify(users));
+        }  
     }
 }

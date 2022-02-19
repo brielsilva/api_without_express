@@ -26,5 +26,10 @@ module.exports = [
         'endpoint': '/users/:id',
         'method': 'PUT',
         'handler': UserController.updateUser
+    }, 
+    {
+        'endpoint': '/users/:id',
+        'method': 'DELETE',
+        'handler': UserController.deleteUserById
     }
 ]
